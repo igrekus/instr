@@ -1,4 +1,4 @@
-from analyzer import Analyzer
+from instr.agilente8362b import AgilentE8362B
 
 
 class AgilentE8362BMock(AgilentE8362B):
