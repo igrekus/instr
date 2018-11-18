@@ -1,11 +1,8 @@
-import random
-
-
 class AgilentE8362B(object):
 
     def __init__(self, idn: str, inst):
         self._idn = idn
-        _, name, _ = idn.split(',')
+        _, name, _, _ = idn.split(',')
         self._name = name.strip()
         self._inst = inst
 
