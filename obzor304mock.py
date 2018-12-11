@@ -9,7 +9,7 @@ class Obzor304Mock(Obzor304):
 
     def __init__(self, address: str):
         self._address = address
-        self._idn = 'OBZOR 304 IDN'
+        self._idn = 'OBZOR304 mock'
         self._folder = ""
 
     def send(self, command):
