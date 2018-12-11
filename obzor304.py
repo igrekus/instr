@@ -15,7 +15,7 @@ class Obzor304:
         self._folder = ''
 
     def __str__(self):
-        return self._idn
+        return f'{self._idn} at {self._address.strip("TCPIP::").strip("::INSTR")}'
 
     def send(self, command):
         return self._inst.write(command)
