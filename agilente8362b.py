@@ -24,7 +24,7 @@ class AgilentE8362B(object):
         return answer
 
     def ping(self):
-        print(self.query('*IDN?'))
+        return self._inst.query('*IDN?')
 
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
