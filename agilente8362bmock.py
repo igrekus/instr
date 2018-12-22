@@ -3,6 +3,8 @@ from instr.agilente8362b import AgilentE8362B
 
 class AgilentE8362BMock(AgilentE8362B):
 
+    idn = 'Agilent, E8362B mock, sn, firmware'
+
     def __init__(self, idn: str, inst=None):
         super().__init__(idn, inst)
 
