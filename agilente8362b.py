@@ -1,5 +1,7 @@
 class AgilentE8362B(object):
 
+    model = 'E8362B'
+
     def __init__(self, idn: str, inst):
         self._idn = idn
         _, name, _, _ = idn.split(',')
