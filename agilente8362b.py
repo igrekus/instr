@@ -26,6 +26,20 @@ class AgilentE8362B(object):
     def ping(self):
         return self._inst.query('*IDN?')
 
+    def reset(self):
+        return self.send(f'SYSTem:FPRESet')
+
+    def create_measurement(self, chan=1, meas_name='', meas_type='S21'):
+        if not meas_name:
+            meas_name = f'meas_{meas_type}'
+        return self.send(f"CALCulate{chan}:PARameter:DEFine:EXTended '{meas_name}',{meas_type}"), meas_name
+
+    def create_window(self, window=1):
+        return self.send(f'DISPlay:WINDow{window}:STATe ON')
+
+    def display_measurement(self, window=1, trace=1, meas_name=''):
+        return self.send(f"DISPlay:WINDow{window}:TRACe{trace}:FEED '{meas_name}'")
+
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
 
