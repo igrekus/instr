@@ -40,6 +40,26 @@ class AgilentE8362B(object):
     def display_measurement(self, window=1, trace=1, meas_name=''):
         return self.send(f"DISPlay:WINDow{window}:TRACe{trace}:FEED '{meas_name}'")
 
+    def set_trigger_source(self, source):
+        """
+        EXTernal - external (rear panel) source.
+        IMMediate - internal source sends continuous trigger signals
+        MANual - sends one trigger signal when manually triggered from the front panel or INIT:IMM is sent.
+        :param source:
+        :return:
+        """
+        return self.send(f'TRIGger:SEQuence:SOURce {source}')
+
+    def set_trigger_point_mode(self, chan=1, mode='OFF'):
+        """
+        ON (or 1) - Channel measures one data point per trigger.
+        OFF (or 0) - All measurements in the channel made per trigger
+
+        :param mode:
+        :return:
+        """
+        return self.send(f'SENSe{chan}:SWEep:TRIGger:POINt {mode}')
+
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
 
@@ -73,6 +93,12 @@ class AgilentE8362B(object):
     @property
     def name(self):
         return self._name
+
+    @property
+    def operation_complete(self):
+        # TODO check query return value
+        ans = self.query('*OPC?')
+        return bool(ans)
 
     @classmethod
     def from_instance(cls, idn, inst):
