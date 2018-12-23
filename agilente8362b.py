@@ -20,7 +20,7 @@ class AgilentE8362B(object):
     def query(self, question):
         print(f'{self._name} ask {question}')
         answer = self._inst.query(question)
-        print(f'{self._name}\nanswer: {answer}')
+        print(f'{self._name}\n> {answer}')
         return answer
 
     def ping(self):
