@@ -31,10 +31,10 @@ class AgilentE8362B(object):
 
     def create_measurement(self, chan=1, meas_name='', meas_type='S21'):
         if not meas_name:
-            meas_name = f'meas_{meas_type}'
-        return self.send(f"CALCulate{chan}:PARameter:DEFine:EXTended '{meas_name}',{meas_type}"), meas_name
 
-    def create_window(self, window=1):
+    def format(self, format='ASCII'):
+
+    def display_create_window(self, window=1):
         return self.send(f'DISPlay:WINDow{window}:STATe ON')
 
     def display_measurement(self, window=1, trace=1, meas_name=''):
@@ -62,6 +62,12 @@ class AgilentE8362B(object):
 
     def source_power(self, chan=1, port=1, value=0):
         return self.send(f'SOURce{chan}:POWer{port} {value}dbm')
+
+
+    def calc_create_measurement(self, chan=1, meas_name='', meas_type='S21'):
+        if not meas_name:
+            meas_name = f'meas_{meas_type}'
+        return self.send(f"CALCulate{chan}:PARameter:DEFine:EXTended '{meas_name}',{meas_type}"), meas_name
 
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
