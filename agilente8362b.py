@@ -40,7 +40,7 @@ class AgilentE8362B(object):
     def display_measurement(self, window=1, trace=1, meas_name=''):
         return self.send(f"DISPlay:WINDow{window}:TRACe{trace}:FEED '{meas_name}'")
 
-    def set_trigger_source(self, source):
+    def trigger_source(self, source):
         """
         EXTernal - external (rear panel) source.
         IMMediate - internal source sends continuous trigger signals
@@ -50,7 +50,7 @@ class AgilentE8362B(object):
         """
         return self.send(f'TRIGger:SEQuence:SOURce {source}')
 
-    def set_trigger_point_mode(self, chan=1, mode='OFF'):
+    def trigger_point_mode(self, chan=1, mode='OFF'):
         """
         ON (or 1) - Channel measures one data point per trigger.
         OFF (or 0) - All measurements in the channel made per trigger
