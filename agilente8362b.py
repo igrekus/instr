@@ -87,6 +87,19 @@ class AgilentE8362B(object):
     def calc_parameter_select(self, chan=1, name=''):
         return self.send(f"CALCulate{chan}:PARameter:SELect '{name}'")
 
+    def calc_formatted_data(self, chan=1):
+        """
+        FDATA Formatted measurement data to or from Data Access Map location
+        Display (access point 2).
+        Corrected data is returned when correction is ON.
+        Uncorrected data is returned when correction is OFF.
+        Returns TWO numbers per data point for Polar and Smith Chart format.
+        Returns one number per data point for all other formats.
+        Format of the read data is same as the displayed format.
+        :return
+        """
+        return self.query(f'CALCulate{chan}:DATA? FDATA')
+
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
 
