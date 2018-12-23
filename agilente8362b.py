@@ -29,10 +29,11 @@ class AgilentE8362B(object):
     def reset(self):
         return self.send(f'SYSTem:FPRESet')
 
-    def create_measurement(self, chan=1, meas_name='', meas_type='S21'):
-        if not meas_name:
+    def wait(self):
+        return self.send(f'*WAIt')
 
     def format(self, format='ASCII'):
+        return self.send(f'FORMat {format}')
 
     def display_create_window(self, window=1):
         return self.send(f'DISPlay:WINDow{window}:STATe ON')
