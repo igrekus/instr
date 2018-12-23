@@ -67,6 +67,17 @@ class AgilentE8362B(object):
     def source_power(self, chan=1, port=1, value=0):
         return self.send(f'SOURce{chan}:POWer{port} {value}dbm')
 
+    def sense_fom_sweep_type(self, chan=1, range=1, type='linear'):
+        return self.send(f'SENSe{chan}:FOM:RANGe{range}:SWEep:TYPE {type}')
+
+    def sense_sweep_points(self, chan=1, points=51):
+        return self.send(f'SENSe{chan}:SWEep:POINts {points}')
+
+    def sense_freq_start(self, chan=1, value=1, unit='MHz'):
+        return self.send(f'SENSe{chan}:FREQuency:STARt {value}{unit}')
+
+    def sense_freq_stop(self, chan=1, value=1, unit='GHz'):
+        return self.send(f'SENSe{chan}:FREQuency:STOP {value}{unit}')
 
     def calc_create_measurement(self, chan=1, meas_name='', meas_type='S21'):
         if not meas_name:
