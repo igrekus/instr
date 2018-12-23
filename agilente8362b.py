@@ -84,6 +84,9 @@ class AgilentE8362B(object):
             meas_name = f'meas_{meas_type}'
         return self.send(f"CALCulate{chan}:PARameter:DEFine:EXTended '{meas_name}',{meas_type}"), meas_name
 
+    def calc_parameter_select(self, chan=1, name=''):
+        return self.send(f"CALCulate{chan}:PARameter:SELect '{name}'")
+
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
 
