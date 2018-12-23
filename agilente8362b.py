@@ -60,6 +60,9 @@ class AgilentE8362B(object):
         """
         return self.send(f'SENSe{chan}:SWEep:TRIGger:POINt {mode}')
 
+    def source_power(self, chan=1, port=1, value=0):
+        return self.send(f'SOURce{chan}:POWer{port} {value}dbm')
+
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
 
