@@ -41,6 +41,9 @@ class AgilentE8362B(object):
     def display_create_trace(self, window=1, trace=1, meas_name=''):
         return self.send(f"DISPlay:WINDow{window}:TRACe{trace}:FEED '{meas_name}'")
 
+    def display_delete_trace(self, window=1, trace=1):
+        return self.send(f'DISPlay:WINDow{window}:TRACe{trace}:DELete')
+
     def trigger_source(self, source):
         """
         EXTernal - external (rear panel) source.
