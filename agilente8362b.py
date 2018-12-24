@@ -38,7 +38,7 @@ class AgilentE8362B(object):
     def display_create_window(self, window=1):
         return self.send(f'DISPlay:WINDow{window}:STATe ON')
 
-    def display_measurement(self, window=1, trace=1, meas_name=''):
+    def display_create_trace(self, window=1, trace=1, meas_name=''):
         return self.send(f"DISPlay:WINDow{window}:TRACe{trace}:FEED '{meas_name}'")
 
     def trigger_source(self, source):
