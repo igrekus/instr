@@ -38,6 +38,9 @@ class AgilentE8362B(object):
     def format(self, format='ASCII'):
         return self.send(f'FORMat {format}')
 
+    def calib_import_device_state(self, name=''):
+        return self.send(f'MMEMory:LOAD:CSARchive "{name}"')
+
     def display_create_window(self, window=1):
         return self.send(f'DISPlay:WINDow{window}:STATe ON')
 
