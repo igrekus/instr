@@ -70,6 +70,9 @@ class AgilentE8362B(object):
     def trigger_initiate(self, chan=1):
         return self.send(f'INITiate{chan}:IMMediate')
 
+    def trigger_scope(self, scope='CURRENT'):
+        return self.send(f'TRIGger:SEQuence:SCOPe {scope}')
+
     def source_power(self, chan=1, port=1, value=0):
         return self.send(f'SOURce{chan}:POWer{port} {value}dbm')
 
