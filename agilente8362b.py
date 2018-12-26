@@ -1,3 +1,6 @@
+import visa
+
+
 class AgilentE8362B(object):
 
     model = 'E8362B'
@@ -149,7 +152,6 @@ class AgilentE8362B(object):
 
     @classmethod
     def from_address_string(cls, address: str):
-        import visa
         rm = visa.ResourceManager()
         try:
             inst = rm.open_resource(address)
@@ -160,14 +162,14 @@ class AgilentE8362B(object):
 
     @classmethod
     def try_find(cls):
-        import visa
         rm = visa.ResourceManager()
         for res in rm.list_resources():
+            print(f'trying {res}')
             try:
                 inst = rm.open_resource(res)
                 idn = inst.query('*IDN?')
                 if cls.model in idn:
-                    return cls(idn=idn, inst=inst)
+                    return cls(idn=idn, inst=inst), res
             except visa.VisaIOError as ex:
                 print(f'VISA error: {ex}')
 
