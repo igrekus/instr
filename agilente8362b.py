@@ -33,7 +33,7 @@ class AgilentE8362B(object):
         return self.send(f'SYSTem:FPRESet')
 
     def wait(self):
-        return self.send(f'*WAIt')
+        return self.send(f'*WAI')
 
     def format(self, format='ASCII'):
         return self.send(f'FORMat {format}')
