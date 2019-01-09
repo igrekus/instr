@@ -52,7 +52,6 @@ class Pna20(object):
     def sense_freq_stop(self, value: int, unit: str):
         return self.send(f':SENSe:PN:FREQuency:STOP {value}{unit}')
 
-    # :SENSe:PN:REFerences:TUNE:MAX {1|2},{3 ~ 20}
     def sense_references_tune_max(self, source: int, value: float, unit: str):
         return self.send(f':SENSe:PN:REFerences:TUNE:MAX {source},{value}{unit}')
 
