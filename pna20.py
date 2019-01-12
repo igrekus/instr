@@ -22,8 +22,11 @@ class Pna20(object):
 
     def query(self, question):
         print(f'{self._name} ask {question}')
-        answer = self._inst.query(question)
-        print(f'{self._name}\n> {answer}')
+        if 'CALC:PN:TRAC:' not in question and 'CALC:FN:TRAC:' not in question:
+            answer = self._inst.query(question)
+        else:
+            answer = self._inst.query_binary_values(question)
+        print(f'> {answer}')
         return answer
 
     def ping(self):
