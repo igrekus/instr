@@ -58,6 +58,13 @@ class Pna20(object):
     def sense_references_tune_max(self, source: int, value: float):
         return self.send(f':SENSe:PN:REFerences:TUNE:MAX {source},{value}')
 
+    # SOURCE subsystem
+    def source_supply_status(self, supply: int, status: str):
+        return self.send(f':SOURCE:SUPPLY{supply}:STATUS {status}')
+
+    def source_supply_voltage(self, supply: int, value: float):
+        return self.send(f':SOURCE:SUPPLY{supply}:volt {value}')
+
     # SYSTEM subsystem
     def system_error_all(self):
         return self.query(':SYSTEM:ERROR:ALL?')
