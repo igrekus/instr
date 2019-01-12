@@ -49,14 +49,14 @@ class Pna20(object):
     def sense_pn_average(self, value: int):
         return self.send(f':SENSe:PN:AVERage {value}')
 
-    def sense_freq_start(self, value: int, unit: str):
-        return self.send(f':SENSe:PN:FREQuency:STARt {value}{unit}')
+    def sense_freq_start(self, value: int):
+        return self.send(f':SENSe:PN:FREQuency:STARt {value}')
 
-    def sense_freq_stop(self, value: int, unit: str):
-        return self.send(f':SENSe:PN:FREQuency:STOP {value}{unit}')
+    def sense_freq_stop(self, value: int):
+        return self.send(f':SENSe:PN:FREQuency:STOP {value}')
 
-    def sense_references_tune_max(self, source: int, value: float, unit: str):
-        return self.send(f':SENSe:PN:REFerences:TUNE:MAX {source},{value}{unit}')
+    def sense_references_tune_max(self, source: int, value: float):
+        return self.send(f':SENSe:PN:REFerences:TUNE:MAX {source},{value}')
 
     # SYSTEM subsystem
     def system_error_all(self):
