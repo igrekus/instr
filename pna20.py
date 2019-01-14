@@ -36,42 +36,88 @@ class Pna20(object):
         return self.send(f'*RST')
 
     # :CALCULATE subsystem
+    def calc_prel_averages(self, mode: str):
+        return self.query(f'CALC:{mode}:PREL:AVER?')
+
+    def calc_prel_corrections(self, mode='fn'):
+        return self.query(f'CALC:{mode}:PREL:CORR?')
+
     def calc_wait_average(self, param='ALL'):
         return self.send(f':CALCulate:WAIT:AVERage {param}')
 
-    def calc_pn_trace_freq(self):
-        return self.query(f':CALCulate:PN:TRACe:FREQuency?')
+    def calc_trace_freq(self, mode):
+        return self.query(f':CALCulate:{mode}:TRACe:FREQuency?')
 
-    def calc_pn_trace_noise(self):
-        return self.query(f':CALCulate:PN:TRACe:NOISe?')
+    def calc_trace_noise(self, mode: str):
+        return self.query(f':CALCulate:{mode}:TRACe:NOISe?')
 
     # :SENSE subsystem
-    def sense_pn_average(self, value: int):
-        return self.send(f':SENSe:PN:AVERage {value}')
+    def sense_adc_rosc_source(self, source: str):
+        return self.send(f'SENSE:ADC:ROSC:SOURCE {source}')
 
-    def sense_freq_start(self, value: int):
-        return self.send(f':SENSe:PN:FREQuency:STARt {value}')
+    def sense_averages(self, mode: str, averages: int):
+        return self.send(f'SENS:{mode}:AVER {averages}')
 
-    def sense_freq_stop(self, value: int):
-        return self.send(f':SENSe:PN:FREQuency:STOP {value}')
+    def sense_corrections(self, mode: str, corrections: int):
+        return self.send(f'SENSE:{mode}:CORR {corrections}')
 
-    def sense_references_tune_max(self, source: int, value: float):
-        return self.send(f':SENSe:PN:REFerences:TUNE:MAX {source},{value}')
+    def sense_mode(self, mode: str):
+        return self.send(f'SENSE:MODE {mode}')
+
+    def sense_freq_det(self, mode: str, value: str):
+        return self.send(f'SENSE:{mode}:freq:det {value}')
+
+    def sense_freq_start(self, mode: str, freq: int):
+        return self.send(f':SENSE:{mode}:FREQuency:STARt {freq}')
+
+    def sense_freq_stop(self, mode: str, freq: int):
+        return self.send(f':SENSE:{mode}:FREQuency:STOP {freq}')
+
+    def sense_ppd(self, mode: str, value: int):
+        return self.send(f'SENSE:{mode}:PPD {value}')
+
+    def sense_references_tune_max(self, mode: str, source: int, value: float):
+        return self.send(f':SENSe:{mode}:REFerences:TUNE:MAX {source},{value}')
+
+    def sense_reset(self, mode: str):
+        self.send(f'SENS:{mode}:RES')
+
+    def sense_smo_aperture(self, mode: str, aperture: int):
+        self.send(f'SENS:{mode}:SMO:APER {aperture}')
+
+    def sense_smo_status(self, mode: str, status: str):
+        self.send(f'SENS:{mode}:SMO:STAT {status}')
+
+    def sense_spur_omis(self, mode: str, omission: str):
+        self.send(f'SENSE:{mode}:SPUR:OMIS {omission}')
+
+    def sense_spur_threshold(self, mode: str, threshold: int):
+        self.send(f'SENSE:{mode}:SPUR:THR {threshold}')
 
     # SOURCE subsystem
+    def source_tune_dut_status(self, status: str):
+        return self.send(f'SOURCE:TUNE:DUT:STATUS {status}')
+
+    def source_tune_dut_voltage(self, volt: float):
+        return self.send(f':SOURCE:TUNE::DUT::VOLT {volt}')
+
     def source_supply_status(self, supply: int, status: str):
         return self.send(f':SOURCE:SUPPLY{supply}:STATUS {status}')
 
-    def source_supply_voltage(self, supply: int, value: float):
-        return self.send(f':SOURCE:SUPPLY{supply}:volt {value}')
+    def source_supply_voltage(self, supply: int, volt: float):
+        return self.send(f':SOURCE:SUPPLY{supply}:volt {volt}')
 
-    # SYSTEM subsystem
+    # :STATUS subsystem
+    def status_questionable_condition(self):
+        return self.query('STAT:QUES:POW:COND?')
+
+    # :SYSTEM subsystem
     def system_error_all(self):
         return self.query(':SYSTEM:ERROR:ALL?')
 
     # :TRIGGER subsystem
     def trigger_init(self):
-        return self.send(f'INIT')
+        return self.send(f':INIT')
 
     @property
     def name(self):
