@@ -24,6 +24,8 @@ class Pna20Mock(Pna20):
             answer = '-2.5'
         elif question == 'CALC:FREQ?':
             answer = '1000000000'
+        elif question == 'MEAS:SUPP1:CURR?':
+            answer = '0.002'
         print(f'{self._name} query: {question}\n> {answer}')
         return answer
 
