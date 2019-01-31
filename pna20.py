@@ -22,7 +22,7 @@ class Pna20(object):
 
     def query(self, question):
         print(f'{self._name} ask {question}')
-        if question in ['CALC:FN:TRAC:FREQ?', 'CALC:FN:TRAC:NOIS?']:
+        if question in ['CALC:FN:TRAC:FREQ?', 'CALC:FN:TRAC:NOIS?', 'CALC:FN:TRAC:IMAG']:
             answer = self._inst.query_binary_values(question)
         else:
             answer = self._inst.query(question)n)
