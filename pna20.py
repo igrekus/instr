@@ -36,6 +36,9 @@ class Pna20(object):
         return self.send(f'*RST')
 
     # :CALCULATE subsystem
+    def calc_freq(self):
+        return self.query('CALC:FREQ?')
+    
     def calc_prel_averages(self, mode: str):
         return self.query(f'CALC:{mode}:PREL:AVER?')
 
