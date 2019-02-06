@@ -1,1 +1,1 @@
-Simpple wrapper around pyvisa for specific instruments.
+Simpple wrapper around pyvisa for specific instruments. WIP, API will change heavily.
