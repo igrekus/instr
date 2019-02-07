@@ -112,6 +112,7 @@ class AgilentE8362B(object):
         """
         return self.query(f'CALCulate{chan}:DATA? FDATA')
 
+    # --- old code ---
     def set_autocalibrate(self, status: str):
         self.send(f':CAL:AUTO {status}')
 

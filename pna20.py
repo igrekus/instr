@@ -49,41 +49,50 @@ class Pna20(object):
         return self.query(f'CALC:{mode}:PREL:CORR?')
 
     def calc_wait_average(self, param='ALL'):
-        return self.send(f':CALCulate:WAIT:AVERage {param}')
+        return self.send(f'CALCulate:WAIT:AVERage {param}')
 
     def calc_trace_freq(self, mode):
-        return self.query(f':CALCulate:{mode}:TRACe:FREQuency?')
+        # return self.query(f':CALCulate:{mode}:TRACe:FREQuency?')
+        return self.query(f'CALC:{mode}:TRAC:FREQ?')
 
     def calc_trace_noise(self, mode: str):
-        return self.query(f':CALCulate:{mode}:TRACe:NOISe?')
+        # return self.query(f':CALCulate:{mode}:TRACe:NOISe?')
+        return self.query(f'CALC:{mode}:TRAC:NOIS?')
+
+    # :MEASURE subsystem
+    def measure_supply_current(self, supply=1):
+        return self.query(f'MEAS:SUPP{supply}:CURR?')
 
     # :SENSE subsystem
     def sense_adc_rosc_source(self, source: str):
-        return self.send(f'SENSE:ADC:ROSC:SOURCE {source}')
+        return self.send(f'SENS:ADC:ROSC:SOUR {source}')
 
     def sense_averages(self, mode: str, averages: int):
         return self.send(f'SENS:{mode}:AVER {averages}')
 
     def sense_corrections(self, mode: str, corrections: int):
-        return self.send(f'SENSE:{mode}:CORR {corrections}')
+        return self.send(f'SENS:{mode}:CORR {corrections}')
 
     def sense_mode(self, mode: str):
-        return self.send(f'SENSE:MODE {mode}')
+        return self.send(f'SENS:MODE {mode}')
 
     def sense_freq_det(self, mode: str, value: str):
-        return self.send(f'SENSE:{mode}:freq:det {value}')
+        return self.send(f'SENS:{mode}:freq:det {value}')
+
+    def sense_freq_exec(self):
+        return self.send('SENS:FREQ:EXEC')
 
     def sense_freq_start(self, mode: str, freq: int):
-        return self.send(f':SENSE:{mode}:FREQuency:STARt {freq}')
+        return self.send(f'SENS:{mode}:FREQuency:STARt {freq}')
 
     def sense_freq_stop(self, mode: str, freq: int):
-        return self.send(f':SENSE:{mode}:FREQuency:STOP {freq}')
+        return self.send(f'SENS:{mode}:FREQuency:STOP {freq}')
 
     def sense_ppd(self, mode: str, value: int):
-        return self.send(f'SENSE:{mode}:PPD {value}')
+        return self.send(f'SENS:{mode}:PPD {value}')
 
     def sense_references_tune_max(self, mode: str, source: int, value: float):
-        return self.send(f':SENSe:{mode}:REFerences:TUNE:MAX {source},{value}')
+        return self.send(f'SENSe:{mode}:REFerences:TUNE:MAX {source},{value}')
 
     def sense_reset(self, mode: str):
         self.send(f'SENS:{mode}:RES')
@@ -95,23 +104,23 @@ class Pna20(object):
         self.send(f'SENS:{mode}:SMO:STAT {status}')
 
     def sense_spur_omis(self, mode: str, omission: str):
-        self.send(f'SENSE:{mode}:SPUR:OMIS {omission}')
+        self.send(f'SENS:{mode}:SPUR:OMIS {omission}')
 
     def sense_spur_threshold(self, mode: str, threshold: int):
-        self.send(f'SENSE:{mode}:SPUR:THR {threshold}')
+        self.send(f'SENS:{mode}:SPUR:THR {threshold}')
 
     # SOURCE subsystem
     def source_tune_dut_status(self, status: str):
-        return self.send(f'SOURCE:TUNE:DUT:STATUS {status}')
+        return self.send(f'SOURCE:TUNE:DUT:STAT {status}')
 
     def source_tune_dut_voltage(self, volt: float):
-        return self.send(f':SOURCE:TUNE::DUT::VOLT {volt}')
+        return self.send(f'SOURCE:TUNE:DUT:VOLT {volt}')
 
     def source_supply_status(self, supply: int, status: str):
-        return self.send(f':SOURCE:SUPPLY{supply}:STATUS {status}')
+        return self.send(f'SOURCE:SUPPLY{supply}:STAT {status}')
 
     def source_supply_voltage(self, supply: int, volt: float):
-        return self.send(f':SOURCE:SUPPLY{supply}:volt {volt}')
+        return self.send(f'SOURCE:SUPPLY{supply}:volt {volt}')
 
     # :STATUS subsystem
     def status_questionable_condition(self):
@@ -119,11 +128,11 @@ class Pna20(object):
 
     # :SYSTEM subsystem
     def system_error_all(self):
-        return self.query(':SYSTEM:ERROR:ALL?')
+        return self.query('SYSTEM:ERROR:ALL?')
 
     # :TRIGGER subsystem
     def trigger_init(self):
-        return self.send(f':INIT')
+        return self.send(f'INIT')
 
     @property
     def name(self):
