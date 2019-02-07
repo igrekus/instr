@@ -22,10 +22,11 @@ class Pna20(object):
 
     def query(self, question):
         print(f'{self._name} ask {question}')
-        if question in ['CALC:FN:TRAC:FREQ?', 'CALC:FN:TRAC:NOIS?', 'CALC:FN:TRAC:IMAG']:
+        # if question in [':CALCulate:fn:TRACe:FREQuency?', ':CALCulate:fn:TRACe:NOISe?']:
+        if question in ['CALC:FN:TRAC:FREQ?', 'CALC:FN:TRAC:NOIS?']:
             answer = self._inst.query_binary_values(question)
         else:
-            answer = self._inst.query(question)n)
+            answer = self._inst.query(question)
         print(f'> {answer}')
         return answer
 
@@ -38,10 +39,10 @@ class Pna20(object):
     # :CALCULATE subsystem
     def calc_freq(self):
         return self.query('CALC:FREQ?')
-    
+
     def calc_pow(self):
         return self.query('CALC:POW?')
-    
+
     def calc_prel_averages(self, mode: str):
         return self.query(f'CALC:{mode}:PREL:AVER?')
 
