@@ -52,11 +52,9 @@ class Pna20(object):
         return self.send(f'CALCulate:WAIT:AVERage {param}')
 
     def calc_trace_freq(self, mode):
-        # return self.query(f':CALCulate:{mode}:TRACe:FREQuency?')
         return self.query(f'CALC:{mode}:TRAC:FREQ?')
 
     def calc_trace_noise(self, mode: str):
-        # return self.query(f':CALCulate:{mode}:TRACe:NOISe?')
         return self.query(f'CALC:{mode}:TRAC:NOIS?')
 
     # :MEASURE subsystem
