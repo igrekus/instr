@@ -37,10 +37,10 @@ class Pna20(object):
 
     # :CALCULATE subsystem
     def calc_freq(self):
-        return self.query('CALC:FREQ?')
+        return self.query('CALC:FREQ?').strip()
 
     def calc_pow(self):
-        return self.query('CALC:POW?')
+        return self.query('CALC:POW?').strip()
 
     def calc_prel_averages(self, mode: str):
         return self.query(f'CALC:{mode}:PREL:AVER?')
@@ -59,7 +59,7 @@ class Pna20(object):
 
     # :MEASURE subsystem
     def measure_supply_current(self, supply=1):
-        return self.query(f'MEAS:SUPP{supply}:CURR?')
+        return self.query(f'MEAS:SUPP{supply}:CURR?').strip()
 
     # :SENSE subsystem
     def sense_adc_rosc_source(self, source: str):
