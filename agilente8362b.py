@@ -28,6 +28,9 @@ class AgilentE8362B:
         print(f'>>> {answer}')
         return answer
 
+    def close(self):
+        self._inst.close()
+
     def ping(self):
         return self._inst.query('*IDN?')
 
