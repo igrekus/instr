@@ -18,12 +18,14 @@ class AgilentE8362B:
         return f'{self.__class__}(idn={self._idn})'
 
     def send(self, command):
-        print(f'{self._name} send {command}:', self._inst.write(command))
+        ret = self._inst.write(command)
+        print(f'{self._name} send {command}:', ret)
+        return ret
 
     def query(self, question):
         print(f'{self._name} ask {question}')
         answer = self._inst.query(question)
-        print(f'{self._name}\n> {answer}')
+        print(f'>>> {answer}')
         return answer
 
     def ping(self):
