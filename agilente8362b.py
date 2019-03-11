@@ -114,36 +114,41 @@ class AgilentE8362B:
         """
         return self.query(f'CALCulate{chan}:DATA? FDATA')
 
-    # --- old code ---
-    def set_autocalibrate(self, status: str):
-        self.send(f':CAL:AUTO {status}')
+    def mkr_read_measurement(self, chan=1, parameter=''):
+        return self.query(f'CALC{chan}:PAR:SEL "{parameter}";CALC{chan}:DATA? FDATA')
 
-    def set_span(self, value, unit):
-        self.send(f':SENS:FREQ:SPAN {str(value)}{unit}')
+    def mkr_read_freqs(self, chan=1, parameter=''):
+        return self.query(f'CALC{chan}:PAR:SEL "{parameter}";SENS{chan}:X?')
 
-    def set_marker_mode(self, marker: int, mode='POS'):
-        self.send(f':CALC:MARK{marker}:MODE {mode}')
+    def mkr_init(self):
+        self.send('SYST:PRES')
+        self.query('*OPC?')
+        self.send('CALC:PAR:DEL:ALL')
 
-    def set_pow_attenuation(self, value):
-        self.send(f':POW:ATT {value}')
+        self.send('DISP:WIND2 ON')
 
-    def set_measure_center_freq(self, value, unit):
-        self.send(f':SENSe:FREQuency:RF:CENTer {str(value)}{unit}')
+        self.send('CALC1:PAR:DEF "CH1_S21",S21')
+        self.send('CALC2:PAR:DEF "CH2_S21",S21')
+        self.send('CALC1:PAR:DEF "CH1_S11",S11')
+        self.send('CALC1:PAR:DEF "CH1_S22",S22')
 
-    def set_marker1_x_center(self, value, unit):
-        self.send(f':CALCulate:MARKer1:X:CENTer {str(value)}{unit}')
+        self.send('SENS1:CORR:CSET:ACT "-20dBm_1.1-1.4G",1')
+        self.send('SENS2:CORR:CSET:ACT "-20dBm_1.1-1.4G",1')
 
-    def read_pow(self, marker: int) -> float:
-        answer = self.query(f':CALCulate:MARKer:Y?')
-        return float(answer)
-        # return random.choice([-12, -50])
+        self.send('DISP:WIND1:TRAC1:FEED "CH1_S21"')
+        self.send('DISP:WIND2:TRAC1:FEED "CH2_S21"')
+        self.send('DISP:WIND1:TRAC2:FEED "CH1_S11"')
+        self.send('DISP:WIND1:TRAC3:FEED "CH1_S22"')
 
-    def remove_marker(self, marker):
-        return self.send(f'SET MARKER{marker} OFF')
+        self.send('SENS1:SWE:MODE CONT')
+        self.send('SENS2:SWE:MODE CONT')
 
-    def set_system_local(self):
-        # pass
-        self.send(f'system:local')
+        self.send('CALC1:FORM MLOG')
+        self.send('DISP:WIND1:TRAC1:Y:SCAL:AUTO')
+        self.send('CALC2:FORM UPH')
+        self.send('DISP:WIND2:TRAC1:Y:SCAL:AUTO')
+
+        self.send(f'FORM:DATA ASCII')
 
     @property
     def name(self):
