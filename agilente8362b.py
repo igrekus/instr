@@ -189,5 +189,6 @@ class AgilentE8362B:
                     return cls(idn=idn, inst=inst), res
             except visa.VisaIOError as ex:
                 print(f'VISA error: {ex}')
-
+        else:
+            return None
 
