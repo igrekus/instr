@@ -1,7 +1,7 @@
 import visa
 
 
-class AgilentE8362B(object):
+class AgilentE8362B:
 
     model = 'E8362B'
 
