@@ -181,6 +181,10 @@ class AgilentE8362B:
         """
         return self.query(f'CALCulate{chan}:DATA? FDATA')
 
+    def ref_create_window(self, win: Window):
+        self._windows.append(win)
+        return self.send(win.create)
+
     def ref_clear_meas(self):
         self._measurements.clear()
         return self.send('CALC:PAR:DEL:ALL')
