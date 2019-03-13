@@ -59,7 +59,7 @@ class Measurement:
 
     @property
     def create(self):
-        return f'CALC{self.chan}:PAR:DEFEXT "{self.name}",{self.param}'
+        return f'CALC{self.chan}:PAR:DEF:EXT "{self.name}",{self.param}'
 
 
 class AgilentE8362B:
