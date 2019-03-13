@@ -73,6 +73,7 @@ class AgilentE8362B:
         self._inst = inst
 
         self._measurements = list()
+        self._windows = list()
 
     def __str__(self):
         return f'{self._name}'
