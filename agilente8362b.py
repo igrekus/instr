@@ -51,6 +51,8 @@ class AgilentE8362B:
         self._name = name.strip()
         self._inst = inst
 
+        self._measurements = list()
+
     def __str__(self):
         return f'{self._name}'
 
