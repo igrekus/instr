@@ -163,6 +163,10 @@ class AgilentE8362B:
         self._measurements.clear()
         return self.send('CALC:PAR:DEL:ALL')
 
+    def ref_create_meas(self, meas: Measurement):
+        self._measurements.append(meas)
+        return self.send(meas.create)
+
     @property
     def name(self):
         return self._name
