@@ -1,6 +1,27 @@
 import visa
 
 
+class Window:
+    WIN_ON = 'ON'
+    WIN_OFF = 'OFF'
+
+    def __init__(self, num: int):
+        self._state = self.WIN_ON
+        self._num = num
+
+    @property
+    def num(self):
+        return self._num
+
+    @property
+    def state(self):
+        return self._state
+
+    @property
+    def create(self):
+        return f'DISPl:WIND{self.num}:STAT {self.state}'
+
+
 class Measurement:
     S11 = 'S11'
     S12 = 'S12'
