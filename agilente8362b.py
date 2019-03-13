@@ -1,6 +1,46 @@
 import visa
 
 
+class Measurement:
+    S11 = 'S11'
+    S12 = 'S12'
+    S21 = 'S21'
+    S22 = 'S22'
+
+    def __init__(self, chan, name, param):
+        self._chan = chan
+        self._name = name
+        self._param = param
+
+        self._selected = False
+
+        self._xs = list()
+        self._ys = list()
+
+    def __str__(self):
+        return f'<{self.__class__.__name__}>(chan={self.chan}, name={self.name}, param={self.param})'
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+
+    @property
+    def chan(self):
+        return self._chan
+
+    @property
+    def param(self):
+        return self._param
+
+    @property
+    def create(self):
+        return f'CALC{self.chan}:PAR:DEFEXT "{self.name}",{self.param}'
+
+
 class AgilentE8362B:
 
     model = 'E8362B'
