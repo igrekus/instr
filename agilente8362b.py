@@ -62,6 +62,32 @@ class Measurement:
         return f'CALC{self.chan}:PAR:DEF:EXT "{self.name}",{self.param}'
 
 
+class CalbrationSet:
+    CAL_SET_ON = 1
+    CAL_SET_OFF = 0
+
+    def __init__(self, chan, name):
+        self._chan = chan
+        self._name = name
+        self._state = self.CAL_SET_ON
+
+    @property
+    def chan(self):
+        return self._chan
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def state(self):
+        return self._state
+
+    @property
+    def activate(self):
+        return f'SENS{self.chan}:CORR:CSET:ACT "{self.name}",{self.state}'
+
+
 class AgilentE8362B:
 
     model = 'E8362B'
