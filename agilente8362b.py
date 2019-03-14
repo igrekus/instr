@@ -219,7 +219,7 @@ class AgilentE8362B:
         return self.send('CALC:PAR:DEL:ALL')
 
     def ref_create_meas(self, meas: Measurement):
-        self._measurements[meas.chan] = meas
+        self._measurements[meas.chan].append(meas)
         return self.send(meas.create)
 
     # TODO implement
