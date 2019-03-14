@@ -222,6 +222,10 @@ class AgilentE8362B:
         self._measurements[meas.chan].append(meas)
         return self.send(meas.create)
 
+    def ref_load_cal_set(self, calset: CalbrationSet):
+        self._calibrations[calset.chan].append(calset)
+        return self.send(calset.activate)
+
     # TODO implement
     # CALCulate<cnum>:PARameter[:DEFine]:EXTended <Mname>,<param>
     # Note: This command replaces CALC:PAR:DEF as it allows the creating of measurements using
