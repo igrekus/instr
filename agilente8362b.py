@@ -87,7 +87,7 @@ class CalbrationSet:
 
     @property
     def activate(self):
-        return f'SENS{self.chan}:CORR:CSET:ACT "{self.name}",{self.state}'
+        return f'SENS{self.chan}:CORR:CSET:ACT "{self.name}",1'
 
 
 class AgilentE8362B:
