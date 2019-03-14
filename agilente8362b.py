@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 import visa
 
 
@@ -98,7 +100,7 @@ class AgilentE8362B:
         self._name = name.strip()
         self._inst = inst
 
-        self._measurements = list()
+        self._measurements = defaultdict(list)
         self._windows = list()
         self._calibrations = dict()
 
@@ -217,8 +219,132 @@ class AgilentE8362B:
         return self.send('CALC:PAR:DEL:ALL')
 
     def ref_create_meas(self, meas: Measurement):
-        self._measurements.append(meas)
+        self._measurements[meas.chan] = meas
         return self.send(meas.create)
+
+    # TODO implement
+    # CALCulate<cnum>:PARameter[:DEFine]:EXTended <Mname>,<param>
+    # Note: This command replaces CALC:PAR:DEF as it allows the creating of measurements using
+    # external multiport testsets.
+    # (Write-only) Creates a measurement but does NOT display it.
+    # There is no limit to the number of measurements that can be created. However, there is a limit to the
+    # number of measurements that can be displayed. See Traces, Channels, and Windows on the PNA.
+    # Use DISP:WIND:STATe to create a window if it doesn't already exist.
+    # Use DISP:WIND<wnum>:TRAC<tnum>:FEED <Mname> to display the measurement.
+    # You must select the measurement (CALC<cnum>:PAR:SEL <mname>) before making additional
+    # settings.
+    # See Critical Note
+    # Parameters
+    # <cnum> Channel number of the new measurement. If unspecified, value is set to 1.
+    # <Mname> (String) Name of the measurement. Any non-empty, unique string, enclosed in
+    # quotes.
+    # <param> (String ) Measurement Parameter to create. Case sensitive.
+    # For S-parameters:
+    # Any S-parameter available in the PNA
+    # 2333Single-digit port numbers CAN be separated by "_" (underscore). For
+    # example: "S21" or "S2_1"
+    # Double-digit port numbers MUST be separated by underscore. For
+    # example: "S10_1"
+    # For ratioed measurements:
+    # Any two PNA physical receivers separated by forward slash '/' followed by
+    # comma and source port.
+    # For example: "A/R1, 3"
+    # Learn more about ratioed measurements
+    # See a block diagram showing the receivers in YOUR PNA.
+    # For non-ratioed measurements:
+    # Any PNA physical receiver followed by comma and source port.
+    # For example: "A, 4"
+    # Learn more about unratioed measurements.
+    # See the block diagram showing the receivers in YOUR PNA.
+    # With PNA Rev 6.2, Ratioed and Unratioed measurements can also use logical
+    # receiver notation to refer to receivers. This notation makes it easy to refer to
+    # receivers with an external test set connected to the PNA. You do not need to
+    # know which physical receiver is used for each test port. Learn more.
+    # For ADC measurements:
+    # Any ADC receiver in the PNA followed by a comma, then the source port.
+    # For example: "AI1,2" indicates the Analog Input1 with source port of 2.
+    # Learn more about ADC receiver measurements.
+    # For Balanced Measurements:
+    # First create an S-parameter measurement, then change the measurement
+    # using CALC:FSIM:BAL "define" commands. See an example.
+    # Examples CALC4:PAR:EXT 'ch4_S33', 'S33' 'Defines an S33 measurement
+    # calculate2:parameter:define:extended 'ch1_a', 'b9, 1' 'logical
+    # 2334receiver notation for unratioed meas of test port 9 receiver with
+    # source port 1.
+    # calculate2:parameter:define:extended 'ch1_a', 'b9/a10,1' 'logical
+    # receiver notation for ratioed meas of test port 9 receiver divided
+    # by the reference receiver for port 10 using source port 1
+    # Query Syntax Not Applicable; see Calc:Par:Cat?
+    # Default Not Applicable
+
+    # CALCulate<cnum>:PARameter[:DEFine] <Mname>,<param>[,port]   Superseded
+    # Note: This command is replaced with CALC:PAR:DEFine:EXTended. This command will continue
+    # to work for up to 4 port parameters.
+    # 2331(Write-only)  Creates a measurement but does NOT display it.
+    # There is no limit to the number of measurements that can be created. However, there is a limit to the
+    # number of measurements that can be displayed. See Traces, Channels, and Windows on the PNA.
+    # Use DISP:WIND:STATe to create a window if it doesn't already exist.
+    # Use DISP:WIND<wnum>:TRAC<tnum>:FEED <Mname> to display the measurement.
+    # For FCA Measurements see CALC:CUST:DEF
+    # You must select the measurement (CALC<cnum>:PAR:SEL <mname>) before making additional
+    # settings.
+    # See Critical Note
+    # Parameters
+    # <cnum> Channel number of the new measurement. If unspecified, value is set to 1.
+    # <Mname> Name of the measurement. Any non-empty, unique string, enclosed in quotes.
+    # <param> For S-parameters:
+    # Any S-parameter available in the PNA
+    # For ratioed measurements:
+    # Any two receivers that are available in the PNA. (See the block diagram
+    # showing the receivers in YOUR PNA.)
+    # For example: AR1 (this means A/R1)
+    # For non-ratioed measurements:
+    # Any receiver that is available in the PNA. (See the block diagram showing
+    # the receivers in YOUR PNA.)
+    # For example: A
+    # For Balanced Measurements:
+    # First create an S-parameter measurement, then change the measurement
+    # using CALC:FSIM:BAL commands. See an example.
+    # For Applications see CALC:CUST:DEF.
+    # [port] Optional argument;
+    # 2332For multi-port reflection S-parameter measurements:  specifies the PNA port
+    # which will provide the load for the calibration. This argument is ignored if a
+    # transmission S-parameter is specified.
+    # For all non S-parameter measurements: specifies the source port for the
+    # measurement.
+    # Examples CALC4:PAR 'ch4_S33',S33,2 'Defines an S33 measurement with a load
+    # on port2 of the analyzer.
+    # calculate2:parameter:define 'ch1_a', a, 1 'unratioed meas
+    # calculate2:parameter:define 'ch1_a', ar1,1 'ratioed meas
+    # Query Syntax Not Applicable; see Calc:Par:Cat?
+    # Default Not Applicable
+
+    # TODO implement
+    # CALCulate<cnum>:PARameter:CATalog:EXTended?
+    # (Read-only) Returns the names and parameters of existing measurements for the specified channel.
+    #  This command lists receiver parameters with "_" such that R1,1 is reported as R1_1. This makes the
+    # returned string a true "comma-delimited" list all the time.
+
+    # TODO implement
+    # CALCulate<cnum>:PARameter:DELete[:NAME] <Mname>
+    #  (Write-only) Deletes the specified measurement.
+    # See Critical Note
+    # Parameters
+    # <cnum> Channel number of the measurement. There must be a selected measurement
+    # on that channel. If unspecified, <cnum> is set to 1.
+    # <Mname> String - Name of the measurement
+    # Examples CALC:PAR:DEL 'TEST'
+    # calculate2:parameter:delete 'test'
+    # Query Syntax Not Applicable
+    # Default Not Applicable
+    # ---
+    # CALCulate:PARameter:DELete:ALL
+    #  (Write-only) Deletes all measurements on the PNA.
+    # See Critical Note
+    # Parameters
+    # Examples CALC:PAR:DEL:ALL
+    # Query Syntax Not Applicable
+    # Default Not Applicable
 
     @property
     def name(self):
