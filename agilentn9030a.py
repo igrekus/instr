@@ -48,7 +48,7 @@ class AgilentN9030A:
         return float(answer)
 
     def remove_marker(self, marker=1):
-        return self.send(f'SET MARKER{marker} OFF')
+        return self.send(f':CALC:MARK{marker}:MODE OFF')
 
     def set_system_local(self):
         # pass
