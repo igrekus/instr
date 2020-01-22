@@ -94,11 +94,12 @@ class AgilentE8362B:
 
     model = 'E8362B'
 
-    def __init__(self, idn: str, inst):
+    def __init__(self, addr: str, idn: str, inst):
         self._idn = idn
-        _, name, _, _ = idn.split(',')
+        _, name, *_ = idn.split(',')
         self._name = name.strip()
         self._inst = inst
+        self._addr = addr
 
         self._measurements = defaultdict(list)
         self._windows = list()
@@ -389,3 +390,10 @@ class AgilentE8362B:
         else:
             return None
 
+    @property
+    def addr(self):
+        return self._addr
+
+    @property
+    def status(self):
+        return f'{self.model} at {self.addr}'
