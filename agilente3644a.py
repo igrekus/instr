@@ -75,6 +75,10 @@ class AgilentE3644A:
         # pass
         self.send(f'system:local')
 
+    def read_current(self, chan):
+        return self.query(f'MEAS:CURR?')
+        # MEAS:CURR CH1
+
     # set parameters and trigger output
     # VOLT:TRIG 3.0
     # CURR:TRIG 1.0
