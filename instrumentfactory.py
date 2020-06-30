@@ -25,8 +25,8 @@ class InstrumentFactory:
         # TODO remove applicable instrument when found one if needed more than one instrument of the same type
         # TODO: idea: pass list of applicable instruments to differ from the model of the same type?
         instr = self.from_address()
-        if not instr:
-            return self.try_find()
+        # if not instr:
+        #     return self.try_find()
         return instr
     def from_address(self):
         raise NotImplementedError
