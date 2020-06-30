@@ -51,7 +51,7 @@ class AgilentE3644A:
             self.active_channel = chan
 
         self.send(f'VOLT:PROT {value}{unit}')
-        self.send(f'VOLT:PROT:STAT ON{value}{unit}')
+        self.send(f'VOLT:PROT:STAT ON')
 
     def set_voltage(self, chan: int, value: float, unit: str):
         if chan not in [1, 2]:
