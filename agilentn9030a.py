@@ -38,7 +38,11 @@ class AgilentN9030A:
         self.send(f':POW:ATT {value}')
 
     def set_measure_center_freq(self, value, unit):
-        self.send(f':SENSe:FREQuency:RF:CENTer {value}{unit}')
+        # TODO hack for E4446A
+        com = f':SENSe:FREQuency:RF:CENTer {value}{unit}'
+        if self._name == 'E4446A':
+            com = f':SENSe:FREQuency:CENTer {value}{unit}'
+        self.send(com)
 
     def set_marker1_x_center(self, value, unit):
         self.send(f':CALCulate:MARKer1:X:CENTer {value}{unit}')
