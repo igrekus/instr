@@ -4,6 +4,8 @@ from instr.agilent34410a import Agilent34410A
 from instr.agilent34410amock import Agilent34410AMock
 from instr.agilente3644a import AgilentE3644A
 from instr.agilente3644amock import AgilentE3644AMock
+from instr.agilentn1914a import AgilentN1914A
+from instr.agilentn1914amock import AgilentN1914AMock
 from instr.agilentn5183a import AgilentN5183A
 from instr.agilentn5183amock import AgilentN5183AMock
 from instr.agilentn9030a import AgilentN9030A
@@ -115,6 +117,25 @@ class NetworkAnalyzerFactory(InstrumentFactory):
     def from_address(self):
         if mock_enabled:
             return AgilentE8362B(self.addr, '1,E8362B mock,1', AgilentE8362BMock())
+        try:
+            rm = visa.ResourceManager()
+            inst = rm.open_resource(self.addr)
+            idn = inst.query('*IDN?')
+            name = idn.split(',')[1].strip()
+            if name in self.applicable:
+                return AgilentE8362B(self.addr, idn, inst)
+        except Exception as ex:
+            print('Source find error:', ex)
+            exit(4)
+
+
+class PowerMeterFactory(InstrumentFactory):
+    def __init__(self, addr):
+        super().__init__(addr=addr, label='Анализатор цепей')
+        self.applicable = ['N1914A', 'N1912A']
+    def from_address(self):
+        if mock_enabled:
+            return AgilentN1914A(self.addr, '1,N1914A mock,1', AgilentN1914AMock())
         try:
             rm = visa.ResourceManager()
             inst = rm.open_resource(self.addr)
