@@ -12,6 +12,8 @@ from instr.agilentn9030a import AgilentN9030A
 from instr.agilentn9030amock import AgilentN9030AMock
 from instr.agilente8362b import AgilentE8362B
 from instr.agilente8362bmock import AgilentE8362BMock
+from instr.oscilloscope import Oscilloscope
+from instr.oscilloscopemock import OscilloscopeMock
 
 mock_enabled = True
 
@@ -126,7 +128,7 @@ class NetworkAnalyzerFactory(InstrumentFactory):
                 return AgilentE8362B(self.addr, idn, inst)
         except Exception as ex:
             print('Source find error:', ex)
-            exit(4)
+            exit(5)
 
 
 class PowerMeterFactory(InstrumentFactory):
@@ -145,4 +147,23 @@ class PowerMeterFactory(InstrumentFactory):
                 return AgilentE3644A(self.addr, idn, inst)
         except Exception as ex:
             print('Source find error:', ex)
-            exit(4)
+            exit(6)
+
+
+class OscilloscopeFactory(InstrumentFactory):
+    def __init__(self, addr):
+        super().__init__(addr=addr, label='Осциллограф')
+        self.applicable = ['Osc']
+    def from_address(self):
+        if mock_enabled:
+            return Oscilloscope(self.addr, '1,Osc mock,1', OscilloscopeMock())
+        try:
+            rm = visa.ResourceManager()
+            inst = rm.open_resource(self.addr)
+            idn = inst.query('*IDN?')
+            name = idn.split(',')[1].strip()
+            if name in self.applicable:
+                return Oscilloscope(self.addr, idn, inst)
+        except Exception as ex:
+            print('Source find error:', ex)
+            exit(7)
