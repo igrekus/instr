@@ -35,47 +35,32 @@ class AgilentE3644A:
 
     # TODO make chan switch decorator
     def set_current(self, chan: int, value: float, unit: str):
-        if chan not in [1, 2]:
-            raise ValueError('Wrong channel index.')
-
-        if chan != self.active_channel:
-            self.active_channel = chan
+        self.active_channel = chan
 
         self.send(f'CURRent {value}{unit}')
 
     def set_voltage_limit(self, chan: int, value: float, unit: str):
-        if chan not in [1, 2]:
-            raise ValueError('Wrong channel index.')
-
-        if chan != self.active_channel:
-            self.active_channel = chan
+        self.active_channel = chan
 
         self.send(f'VOLT:PROT {value}{unit}')
         self.send(f'VOLT:PROT:STAT ON')
 
     def set_voltage(self, chan: int, value: float, unit: str):
-        if chan not in [1, 2]:
-            raise ValueError('Wrong channel index.')
-
-        if chan != self.active_channel:
-            self.active_channel = chan
+        self.active_channel = chan
 
         self.send(f'VOLT {value}{unit}')
 
     def set_output(self, chan, state):
-        if chan not in [1, 2]:
-            raise ValueError('Wrong channel index.')
-
-        if chan != self.active_channel:
-            self.active_channel = chan
+        self.active_channel = chan
 
         self.send(f'OUTP {state}')
 
     def set_system_local(self):
-        # pass
         self.send(f'system:local')
 
     def read_current(self, chan):
+        self.active_channel = chan
+
         return self.query(f'MEAS:CURR?')
         # MEAS:CURR CH1
 
