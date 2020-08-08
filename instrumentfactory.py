@@ -153,10 +153,10 @@ class PowerMeterFactory(InstrumentFactory):
 class OscilloscopeFactory(InstrumentFactory):
     def __init__(self, addr):
         super().__init__(addr=addr, label='Осциллограф')
-        self.applicable = ['Osc']
+        self.applicable = ['DSO-X 3034A']
     def from_address(self):
         if mock_enabled:
-            return Oscilloscope(self.addr, '1,Osc mock,1', OscilloscopeMock())
+            return Oscilloscope(self.addr, '1,DSO-X 3034A mock,1', OscilloscopeMock())
         try:
             rm = visa.ResourceManager()
             inst = rm.open_resource(self.addr)
