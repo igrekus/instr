@@ -151,6 +151,10 @@ class PowerMeterFactory(InstrumentFactory):
 
 
 class OscilloscopeFactory(InstrumentFactory):
+    """
+    Applicable models:
+        - AGILENT TECHNOLOGIES,DSO-X 3034A,MY51452204,02.00.2011101301
+    """
     def __init__(self, addr):
         super().__init__(addr=addr, label='Осциллограф')
         self.applicable = ['DSO-X 3034A']
