@@ -14,6 +14,8 @@ from instr.agilente8362b import AgilentE8362B
 from instr.agilente8362bmock import AgilentE8362BMock
 from instr.oscilloscope import Oscilloscope
 from instr.oscilloscopemock import OscilloscopeMock
+from instr.semiconductoranalyzer import SemiconductorAnalyzer
+from instr.semiconductoranalyzermock import SemiconductorAnalyzerMock
 
 mock_enabled = True
 
@@ -170,4 +172,27 @@ class OscilloscopeFactory(InstrumentFactory):
                 return Oscilloscope(self.addr, idn, inst)
         except Exception as ex:
             print('Source find error:', ex)
+            exit(7)
+
+
+class SemiconductorAnalyzerFactory(InstrumentFactory):
+    """
+    Applicable models:
+        - B1500A analyzer #TODO fix id string
+    """
+    def __init__(self, addr):
+        super().__init__(addr=addr, label='Анализатор п/п приборов')
+        self.applicable = ['B1500A']
+    def from_address(self):
+        if mock_enabled:
+            return SemiconductorAnalyzer(self.addr, '1,B1500A mock,1', SemiconductorAnalyzerMock())
+        try:
+            rm = visa.ResourceManager()
+            inst = rm.open_resource(self.addr)
+            idn = inst.query('*IDN?')
+            name = idn.split(',')[1].strip()
+            if name in self.applicable:
+                return SemiconductorAnalyzer(self.addr, idn, inst)
+        except Exception as ex:
+            print('Semiconductor analyzer find error:', ex)
             exit(7)
